@@ -1,0 +1,34 @@
+server:
+  port: 8001
+
+spring:
+    host: 106.15.94.159
+    database: 3
+    port: 6379
+    password: wannaME123$.
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+      timeout: 3000ms
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
+    - classpath:model/*.xml
+    - classpath*:cn/**/model/*.xml
+
+redis:
+  key:
+    prefix:
+      authCode: "portal:authCode:"
+    expire:
+      authCode: 120
+
+jwt:
+  tokenHeader: Autorization #JWT存储的请求头
+  secret: mySecret #JWT加密解密的密钥
+  expiration: 3600 #JWT保质期60*60
+  tokenHead: Bearer #JWT负载拿到的开头
