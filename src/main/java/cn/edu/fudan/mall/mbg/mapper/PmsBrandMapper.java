@@ -4,6 +4,7 @@ import cn.edu.fudan.mall.mbg.model.PmsBrand;
 import cn.edu.fudan.mall.mbg.model.PmsBrandExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 public interface PmsBrandMapper {
     int countByExample(PmsBrandExample example);

@@ -87,7 +87,7 @@
             <version>2.7.0</version>
         </dependency>
 
-<!--        reids-->
+<!--        redis-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>

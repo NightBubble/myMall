@@ -2,13 +2,16 @@ package cn.edu.fudan.mall.config;
 
 import cn.edu.fudan.mall.component.RestAuthenticationEntryPoint;
 import cn.edu.fudan.mall.component.RestfulAccessDeniedHandler;
+import cn.edu.fudan.mall.component.JwtAuthenticationTokenFilter;
 import cn.edu.fudan.mall.dto.AdminUserDetails;
 import cn.edu.fudan.mall.mbg.model.UmsAdmin;
 import cn.edu.fudan.mall.mbg.model.UmsPermission;
+import cn.edu.fudan.mall.service.UmsAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,15 +24,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UmsAdmainService adminService;
+    private UmsAdminService adminService;
     @Autowired
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Autowired
@@ -43,7 +45,15 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET) // 允许对网页静态资源的无授权访问
+                .antMatchers(HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/swagger-resources/**",
+                        "/v2/api-docs/**") // 允许对网页静态资源的无授权访问
                 .permitAll()
                 .antMatchers("/admin/login","/admin/register") //对登录注册要匿名访问
                 .permitAll()
@@ -91,7 +101,15 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         };
     }
 
-
-    private Filter jwtAuthenticationTokenFilter() {
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
+        return new JwtAuthenticationTokenFilter();
     }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
 }
