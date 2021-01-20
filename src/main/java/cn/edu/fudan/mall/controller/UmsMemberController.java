@@ -22,7 +22,7 @@ public class UmsMemberController {
     @RequestMapping(value = "/getAuthCode", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult getAuthCode(@RequestParam("telephone")String telephone){
-
+        System.out.println(telephone);
         return umsMemberService.generateAuthCode(telephone);
     }
 
