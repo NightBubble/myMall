@@ -36,6 +36,11 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="cn.edu.fudan.mall.mbg.mapper"
                              targetProject="./src/main/java"/>
         <!--生成全部表tableName设为%-->
+        <!--后台商品表-->
+        <table tableName="pms_product">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <!--后台商品铭牌表-->
         <table tableName="pms_brand">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
         </table>
